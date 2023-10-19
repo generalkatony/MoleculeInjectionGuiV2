@@ -29,7 +29,7 @@ def enter_data():
             print("Registration status", registration_status)
             print("------------------------------------------")
 
-            filepath = "testdata.xlsx"
+            filepath = "example_test.xlsx"
 
             if not os.path.exists(filepath):
                 workbook = openpyxl.Workbook()

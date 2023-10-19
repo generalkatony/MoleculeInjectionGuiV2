@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
 
 window = tk.Tk()
 window.title("Data Entry Form")
@@ -41,6 +42,22 @@ token_label.grid(row=2, column=0)
 token_entry = ttk.Entry(info_frame)
 token_entry.grid(row=2, column=1)
 
+
+def set_path(entry_field):
+    path = filedialog.askopenfilename()
+    entry_field.delete(0, tk.END)
+    entry_field.insert(0, path)
+
+
+csv_label = ttk.Label(info_frame, text="CSV File")
+csv_label.grid(row=0, column=3)
+csv_entry = ttk.Entry(info_frame)
+csv_entry.grid(row=0, column=4)
+
+btn_get_path = ttk.Button(
+    info_frame, text="Select File", command=lambda: set_path(csv_entry)
+)
+btn_get_path.grid(row=1, column=4)
 ############################################################
 # Fields LabelFrame
 fields_frame = ttk.LabelFrame(frame, text="Default Fields")
@@ -94,9 +111,9 @@ cusfields_frame.grid(row=1, column=1, padx=10, pady=10)
 
 def add_entry():
     new_entry1 = ttk.Entry(cusfields_frame)
-    new_entry1.grid(row=len(entry_widgets), column=2)
+    new_entry1.grid(row=len(entry_widgets), column=0)
     new_entry2 = ttk.Entry(cusfields_frame)
-    new_entry2.grid(row=len(entry_widgets), column=3)
+    new_entry2.grid(row=len(entry_widgets), column=1)
     entry_widgets.append((new_entry1, new_entry2))
 
 
