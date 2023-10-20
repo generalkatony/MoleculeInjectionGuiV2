@@ -1,6 +1,6 @@
 import tkinter as tk
-from tkinter import ttk
-from tkinter import filedialog
+from tkinter import ttk, filedialog
+import json
 
 window = tk.Tk()
 window.title("Data Entry Form")
@@ -20,7 +20,6 @@ def toggle_mode():
 
 frame = ttk.Frame(window)
 frame.pack()
-
 
 ##########################################################
 # Info LabelFrame
@@ -58,6 +57,7 @@ btn_get_path = ttk.Button(
     info_frame, text="Select File", command=lambda: set_path(csv_entry)
 )
 btn_get_path.grid(row=1, column=4)
+
 ############################################################
 # Fields LabelFrame
 fields_frame = ttk.LabelFrame(frame, text="Default Fields")
@@ -83,7 +83,10 @@ entry_widgets = {}
 for i, var_name in enumerate(variables):
     label = ttk.Label(fields_frame, text=var_name.capitalize() + ":")
     label.grid(row=i, column=0, sticky="ew")
+
+    # Create a regular Entry widget for other variables
     entry = ttk.Entry(fields_frame)
+
     entry.grid(row=i, column=1)
     entry_widgets[var_name] = entry
 
@@ -98,10 +101,11 @@ get_values_button = ttk.Button(fields_frame, text="Get Values", command=get_valu
 get_values_button.grid(row=len(variables), columnspan=2)
 
 ############################################################
-# add dark/ light mode toggle
-mode_switch = ttk.Checkbutton(frame, text="Mode", style="Switch", command=toggle_mode)
+# add dark/light mode toggle
+mode_switch = ttk.Checkbutton(
+    frame, text="Dark Mode", variable=tk.BooleanVar(), command=toggle_mode
+)
 mode_switch.grid(row=6, column=0, padx=5, pady=10, sticky="nsew")
-
 
 ############################################################
 
@@ -114,12 +118,18 @@ def add_entry():
     new_entry1.grid(row=len(entry_widgets), column=0)
     new_entry2 = ttk.Entry(cusfields_frame)
     new_entry2.grid(row=len(entry_widgets), column=1)
-    entry_widgets.append((new_entry1, new_entry2))
+    # Store the new entry widgets in entry_widgets
+    entry_widgets[new_entry1] = new_entry2
 
 
-entry_widgets = []
+entry_widgets = {}
 
 add_button = ttk.Button(cusfields_frame, text="Add Entry", command=add_entry)
 add_button.grid(row=15, column=0)
+
+#############################################################
+
+
+#############################################################
 
 window.mainloop()

@@ -1,3 +1,6 @@
 id,type,trade_id,leg_id,contract_start,unit_quantity,settlement_date,asset_id,asset,interval_ending,actualized,matched_subleg_id,product
-161286,subleg,149198,150143,2023-06-01,999.0,2023-07-03,,,,False,,ECOP
+161299,subleg,149198,150143,2023-06-01,996.0,2023-07-03,,,,False,,ECOP
 161285,subleg,149198,150143,2023-06-01,1.0,2023-10-11,,,,False,,ECOP
+161286,subleg,149198,150143,2023-06-01,1.0,2023-10-11,,,,False,,ECOP
+161287,subleg,149198,150143,2023-06-01,1.0,2023-10-11,,,,False,,ECOP
+161298,subleg,149198,150143,2023-06-01,1.0,2023-10-11,,,,False,,ECOP
