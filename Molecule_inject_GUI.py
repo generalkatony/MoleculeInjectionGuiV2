@@ -2,6 +2,12 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 import json
 
+
+############## GENERAL FUNCTIONS ############################
+
+
+#############################################################
+
 window = tk.Tk()
 window.title("Data Entry Form")
 
@@ -57,7 +63,9 @@ btn_get_path = ttk.Button(
     info_frame, text="Select File", command=lambda: set_path(csv_entry)
 )
 btn_get_path.grid(row=1, column=4)
-
+########### UNIVERSAL DATA DICT ############################
+entry_widgets = {}
+entered_value = []  # list for entered values
 ############################################################
 # Fields LabelFrame
 fields_frame = ttk.LabelFrame(frame, text="Default Fields")
@@ -79,7 +87,7 @@ variables = [
     "custom_field_name",
 ]
 
-entry_widgets = {}
+
 for i, var_name in enumerate(variables):
     label = ttk.Label(fields_frame, text=var_name.capitalize() + ":")
     label.grid(row=i, column=0, sticky="ew")
@@ -94,7 +102,17 @@ for i, var_name in enumerate(variables):
 def get_values():
     for var_name, entry_widget in entry_widgets.items():
         value = entry_widget.get()
-        print(f"{var_name.capitalize()}: {value}")
+        entered_value.append({var_name, value})
+
+    formatted_value = []
+    # Format the values and append to the formatted_values list
+    for var_name, value in entered_value:
+        formatted_value.append(f"{var_name.capitalize()}: {value}")
+
+    # Now, you can print the formatted values
+    print("Formatted Entered Values:")
+    for formatted_value in formatted_value:
+        print(formatted_value)
 
 
 get_values_button = ttk.Button(fields_frame, text="Get Values", command=get_values)
@@ -102,9 +120,7 @@ get_values_button.grid(row=len(variables), columnspan=2)
 
 ############################################################
 # add dark/light mode toggle
-mode_switch = ttk.Checkbutton(
-    frame, text="Dark Mode", variable=tk.BooleanVar(), command=toggle_mode
-)
+mode_switch = ttk.Checkbutton(frame, text="Mode", style="Switch", command=toggle_mode)
 mode_switch.grid(row=6, column=0, padx=5, pady=10, sticky="nsew")
 
 ############################################################
@@ -112,17 +128,30 @@ mode_switch.grid(row=6, column=0, padx=5, pady=10, sticky="nsew")
 cusfields_frame = ttk.LabelFrame(frame, text="Custom Fields")
 cusfields_frame.grid(row=1, column=1, padx=10, pady=10)
 
+# Create a dictionary to store the mapping between labels and Entry widgets
+cus_entry_widgets = {}
+
 
 def add_entry():
-    new_entry1 = ttk.Entry(cusfields_frame)
-    new_entry1.grid(row=len(entry_widgets), column=0)
-    new_entry2 = ttk.Entry(cusfields_frame)
-    new_entry2.grid(row=len(entry_widgets), column=1)
-    # Store the new entry widgets in entry_widgets
-    entry_widgets[new_entry1] = new_entry2
+    label_text = f"Custom Field {len(cus_entry_widgets) + 1}"
+    custom_label = ttk.Entry(cusfields_frame)
+    custom_label.grid(row=len(cus_entry_widgets), column=0)
+    custom_value = ttk.Entry(cusfields_frame)
+    custom_value.grid(row=len(cus_entry_widgets), column=1)
+    # Store the new entry widgets with descriptive keys
+    cus_entry_widgets[label_text] = (custom_label, custom_value)
+
+    # Print the values of each entry box, if not empty
+    print("Values of Custom Fields:")
+    for label, (entry1, entry2) in cus_entry_widgets.items():
+        value1 = entry1.get()
+        value2 = entry2.get()
 
 
-entry_widgets = {}
+# Iterate and print each key-value pair in the cus_entry_widgets dictionary
+for label, (entry1, entry2) in cus_entry_widgets.items():
+    print(f"{label}: Label - {entry1.get()}, Value - {entry2.get()}")
+
 
 add_button = ttk.Button(cusfields_frame, text="Add Entry", command=add_entry)
 add_button.grid(row=15, column=0)
