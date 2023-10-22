@@ -22,19 +22,37 @@ headers = {
     "x-token": "T-TyVnTYsoyaQtL9nRst",
 }
 
-    fulfillment_date = "2023-10-11"
-    commodity = "Aromatic"
-    volume = 1
-    price = ""
-    asset = ""
-    status = "estimate"
-    fill = True
-    final_delivery = False
-    subleg_id = str(subleg_id)
-    external_id = ""
-    external_source = ""
-    dedupe_external_id = "True"
-    custom_field_name = ""
+df_data = pd.read_csv(
+    r"Example_data.csv",
+    header=0,
+)
+
+df_data = df_data.fillna("")
+
+
+# Convert TRADE_DATE column to desired format
+date_format = "%Y-%m-%d %H:%M:%S"
+df_data["fulfillment_date"] = pd.to_datetime(
+    df_data["fulfillment_date"], dayfirst=True
+).dt.strftime(date_format)
+
+print(df_data)
+
+
+input1 = "fulfillment_date"
+input2 = "commodity"
+input3 = "volume"
+input4 = "price"
+input5 = "asset"
+input6 = "status"
+input7 = "fill"
+input8 = "final_delivery"
+# input9 = str(subleg_id)
+input10 = "external_id"
+input11 = "external_source"
+input12 = "dedupe_external_id"
+input13 = "custom_field_name"
+
 
 ################ SUBMIT API REQUEST TO FETCH SUBLEG ID ###################################
 
@@ -101,21 +119,22 @@ selected_subleg = 0
 subleg_id = int(df["id"].iloc[selected_subleg])
 
 # Load n Populate the Payload Draft
-payload = {
-    "fulfillment_date": "2023-10-11",
-    "commodity": "Aromatic",
-    "volume": 1,
-    "price": "",
-    "asset": "",
-    "status": "estimate",
-    "fill": True,
-    "final_delivery": False,
-    "subleg_id": str(subleg_id),
-    "external _id": "",
-    "external_source": "",
-    "dedupe_external_id": "True",
-    "custom_field_name": "",
-}
+for idx, data in df_data.iterrows():
+    payload = {
+        "fulfillment_date": data[input1],
+        "commodity": data[input2],
+        "volume": data[input3],
+        "price": data[input4],
+        "asset": data[input5],
+        "status": data[input6],
+        "fill": data[input7],
+        "final_delivery": data[input8],
+        "subleg_id": str(subleg_id),
+        "external _id": data[input10],
+        "external_source": data[input11],
+        "dedupe_external_id": data[input12],
+        "custom_field_name": data[input13],
+    }
 ####################### FILTER DATA SECTION ###########################################
 
 ######### remove n/a data from package ########################

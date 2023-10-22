@@ -102,7 +102,10 @@ for i, var_name in enumerate(variables):
 def get_values():
     for var_name, entry_widget in entry_widgets.items():
         value = entry_widget.get()
-        entered_value.append({var_name, value})
+        if value is not None and value != "":
+            entered_value.append({var_name, value})
+
+    ########## PRINT WITH FORMAT ##################################
 
     formatted_value = []
     # Format the values and append to the formatted_values list
@@ -114,6 +117,8 @@ def get_values():
     for formatted_value in formatted_value:
         print(formatted_value)
 
+
+###############################################################
 
 get_values_button = ttk.Button(fields_frame, text="Get Values", command=get_values)
 get_values_button.grid(row=len(variables), columnspan=2)
