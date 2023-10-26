@@ -3,6 +3,7 @@ from tkinter import ttk, filedialog
 import json
 import os
 from icecream import ic
+import bulk_upload_ticket.py
 
 ############## GENERAL FUNCTIONS ############################
 
@@ -132,12 +133,10 @@ variables = [
     "price",
     "asset",
     "status",
-    "fill",
     "final_delivery",
     "subleg_id",
     "external _id",
     "external_source",
-    "dedupe_external_id",
     "custom_field_name",
 ]
 
